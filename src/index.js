@@ -10,9 +10,9 @@ import {
 
 var isBrowser = typeof window !== 'undefined';
 
-function ymProxy(id, methodName, ...args) {
+export function ymProxy(id, methodName, ...args) {
     try {
-        window[trackerInstanceName(id)][methodName](...args);
+        return window[trackerInstanceName(id)][methodName](...args);
     } catch (ex) {
         console.warn(ex);
     }
@@ -25,7 +25,7 @@ function ymAsyncProxy(...args) {
         if (callbackQueue) {
             callbackQueue.push(() => ymProxy(id, ...args));
         } else {
-            ymProxy(id, ...args);
+            result = ymProxy(id, ...args);
         }
     });
 }
